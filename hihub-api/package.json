@@ -1,0 +1,11 @@
+{
+  "name": "hihub-api",
+  "version": "1.0.0",
+  "description": "hihub后端服务",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "孟十三",
+  "license": "ISC"
+}
