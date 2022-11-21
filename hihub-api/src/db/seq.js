@@ -13,11 +13,11 @@ const seq = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
 
 // 连接测试
 // 控制台执行命令，node src/db/seq.js
-seq.authenticate().then(() => {
-    console.log('数据库连接成功');
+// seq.authenticate().then(() => {
+//     console.log('数据库连接成功');
     
-}).catch(err => {
-    console.log('数据库连接失败', err);
-})
+// }).catch(err => {
+//     console.log('数据库连接失败', err);
+// })
 
 module.exports = seq
