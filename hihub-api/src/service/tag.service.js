@@ -1,5 +1,4 @@
-const {QueryTypes} = require('sequelize')
-const User = require('../model/user.model')
+const { QueryTypes } = require('sequelize')
 const seq = require('../db/seq')
 
 class TagService {
