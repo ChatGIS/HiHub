@@ -4,7 +4,7 @@ module.exports = (option = {}) => {
             ctx.type = option.type || 'json'
             ctx.body = {
                 meta: {
-                    code: code || option.successCode || 200,
+                    status: code || option.successCode || 200,
                     msg: msg || option.successMsg || 'success'
                 },
                 data: data
@@ -15,7 +15,7 @@ module.exports = (option = {}) => {
             ctx.type = option.type || 'json'
             ctx.body = {
                 meta: {
-                    code: code || option.failCode || 99,
+                    status: code || option.failCode || 99,
                     msg: msg || option.successMsg || 'fail'
                 }
             }
