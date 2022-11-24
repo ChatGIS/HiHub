@@ -1,8 +1,18 @@
 <script setup lang='ts'>
 import { getPosts } from '@/api/post'
 import { ref, reactive, computed } from 'vue'
+
+// 定义Post
+interface Post {
+    id: number
+    postid: string
+    name: string
+    posturl: string
+    status_img: number
+    weburl: string
+}
 // 帖子数据
-const posts: any[] = reactive([])
+const posts: Post[] = reactive([])
 const totalPost = ref(0)
 // 查询条件
 const queryParam = reactive({
@@ -31,11 +41,24 @@ const handleSizeChange = (val: number) => {
 const handleCurrentChange = (val: number) => {
     initPosts()
 }
+// 表格状态函数
+const tableRowClassName = ({ row
+}: {
+    row: Post
+}) => {
+    if (row.status_img === 1) {
+        return 'warning-row'
+    } else if (row.status_img === 2) {
+        return 'success-row'
+    }
+    return ''
+}
 </script>
 
 <template>
     <div>
-        <el-table :data="posts" stripe style="width: 100%" size="small" :height="tableHeight">
+        <el-table :data="posts" style="width: 100%" size="small" :height="tableHeight"
+            :row-class-name="tableRowClassName">
             <el-table-column prop="id" label="ID" width="50" />
             <el-table-column prop="name" label="名称">
             </el-table-column>
@@ -55,5 +78,11 @@ const handleCurrentChange = (val: number) => {
 </template>
 
 <style scoped>
+.el-table :deep(.warning-row) {
+    --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
 
+.el-table :deep(.success-row) {
+    --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
 </style>
