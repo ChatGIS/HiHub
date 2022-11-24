@@ -1,13 +1,12 @@
 <template>
     <div class="logo-container">
-        <el-image class="logo-image" :src="imgBread" :fit="fitVal" />
-        <span class="logo-text">面包导航</span>
+        <el-image class="logo-image" :src="logoHi" :fit="fitVal" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import imgBread from '../../assets/images/bread_618.png'
+import logoHi from '@/assets/images/logo.png'
 
 const fitVal = ref('fit')
 </script>
