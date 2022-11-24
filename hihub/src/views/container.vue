@@ -13,9 +13,9 @@ onMounted(() => {
 // 登录或退出
 const loginOrOut = () => {
     store.isLogin = !store.isLogin
-    if(store.isLogin === true){
+    if (store.isLogin === true) {
         loginOrOutText.value = '退出登录'
-    } else if(store.isLogin === false){
+    } else if (store.isLogin === false) {
         loginOrOutText.value = '请登录'
         window.localStorage.removeItem('mbToken')
     }
@@ -28,12 +28,11 @@ const loginOrOut = () => {
 
 <template>
     <el-container>
-        <el-header id="bn-header">
+        <el-header id="hi-header">
             <div class="header-container">
                 <Logo></Logo>
                 <Menu></Menu>
-                <Search></Search>
-                <el-button type="primary" @click="loginOrOut">{{ loginOrOutText }}</el-button>
+                <!-- <el-button type="primary" @click="loginOrOut">{{ loginOrOutText }}</el-button> -->
             </div>
         </el-header>
         <el-main id="bn-main">
@@ -48,16 +47,20 @@ section {
     --header-height: 60px;
     --footer-height: 30px;
 }
-#bn-header {
+
+#hi-header {
     position: relative;
     height: var(--header-height);
+    background-color: black;
 }
+
 #bn-main {
     position: absolute;
     top: 60px;
     height: calc(100% - var(--header-height) - var(--footer-height));
     overflow-y: auto;
 }
+
 #bn-footer {
     position: absolute;
     bottom: 0px;
