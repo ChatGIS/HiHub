@@ -22,8 +22,6 @@ const loginOrOut = () => {
     router.push('/login')
 }
 
-
-
 </script>
 
 <template>
@@ -35,17 +33,15 @@ const loginOrOut = () => {
                 <!-- <el-button type="primary" @click="loginOrOut">{{ loginOrOutText }}</el-button> -->
             </div>
         </el-header>
-        <el-main id="bn-main">
+        <el-main id="hi-main">
             <router-view></router-view>
         </el-main>
-        <el-footer id="bn-footer">备案号</el-footer>
     </el-container>
 </template>
 
 <style scoped>
 section {
     --header-height: 60px;
-    --footer-height: 30px;
 }
 
 #hi-header {
@@ -54,18 +50,11 @@ section {
     background-color: black;
 }
 
-#bn-main {
+#hi-main {
     position: absolute;
     top: 60px;
-    height: calc(100% - var(--header-height) - var(--footer-height));
+    height: calc(100% - var(--header-height));
     overflow-y: auto;
-}
-
-#bn-footer {
-    position: absolute;
-    bottom: 0px;
-    height: var(--footer-height);
     width: 100%;
-    background-color: #f0f2f5;
 }
 </style>

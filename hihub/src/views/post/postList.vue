@@ -1,30 +1,56 @@
 <script setup lang='ts'>
 import { getPosts } from '@/api/post'
-import { reactive } from 'vue'
-
+import { ref, reactive, computed } from 'vue'
+// 帖子数据
 const posts: any[] = reactive([])
-const pageParam = reactive({
+const totalPost = ref(0)
+// 查询条件
+const queryParam = reactive({
     query: '',
     pagenum: 1,
     pagesize: 20,
     tags: [0],
 })
-
+// 初始化获取帖子数据
 const initPosts = async () => {
-    const res = await getPosts(pageParam)
+    const res = await getPosts(queryParam)
+    posts.length = 0
     posts.push(...res.posts)
-
+    totalPost.value = res.total
 }
 initPosts()
+// 表格高度
+const tableHeight = computed(() => {
+    return (window.innerHeight - 129) + 'px'
+})
+// 分页page-size改变时触发
+const handleSizeChange = (val: number) => {
+    initPosts()
+}
+// 分页current-page 改变时触发
+const handleCurrentChange = (val: number) => {
+    initPosts()
+}
 </script>
 
 <template>
     <div>
-        <el-table :data="posts" stripe style="width: 100%">
-            <el-table-column prop="date" label="Date" width="180" />
-            <el-table-column prop="name" label="Name" width="180" />
-            <el-table-column prop="address" label="Address" />
+        <el-table :data="posts" stripe style="width: 100%" size="small" :height="tableHeight">
+            <el-table-column prop="id" label="ID" width="50" />
+            <el-table-column prop="name" label="名称">
+            </el-table-column>
+            <el-table-column prop="address" label="原始地址">
+                <template #default="scope">
+                    <el-link :href="scope.row.weburl + scope.row.posturl" target="_blank">{{ scope.row.weburl +
+                            scope.row.posturl
+                    }}</el-link>
+                </template>
+            </el-table-column>
         </el-table>
+        <el-pagination v-model:current-page="queryParam.pagenum" v-model:page-size="queryParam.pagesize"
+            :page-sizes="[20, 50, 100, 200]" small="true" background="true"
+            layout="total, sizes, prev, pager, next, jumper" :total="totalPost" @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" />
     </div>
 </template>
 
