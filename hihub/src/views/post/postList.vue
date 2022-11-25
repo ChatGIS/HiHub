@@ -1,7 +1,9 @@
 <script setup lang='ts'>
 import { getPosts } from '@/api/post'
 import { ref, reactive, computed } from 'vue'
+import {useRouter} from 'vue-router'
 
+const router = useRouter()
 // 定义Post
 interface Post {
     id: number
@@ -53,6 +55,17 @@ const tableRowClassName = ({ row
     }
     return ''
 }
+// 打开帖子的图片
+const openImageByPostId = (id: number, name: string) => {
+    console.log(id)
+    router.push({
+        name: 'post-image',
+        params: {
+            id,
+            name
+        }
+    })
+}
 </script>
 
 <template>
@@ -60,9 +73,14 @@ const tableRowClassName = ({ row
         <el-table :data="posts" style="width: 100%" size="small" :height="tableHeight"
             :row-class-name="tableRowClassName">
             <el-table-column prop="id" label="ID" width="50" />
-            <el-table-column prop="name" label="名称">
+            <el-table-column prop="weburl" label="名称">
+                <template #default="scope">
+                    <el-button link size="small" @click="openImageByPostId(scope.row.id, scope.row.name)">
+                        {{ scope.row.weburl }}
+                    </el-button>
+                </template>
             </el-table-column>
-            <el-table-column prop="address" label="原始地址">
+            <el-table-column label="原始地址">
                 <template #default="scope">
                     <el-link :href="scope.row.weburl + scope.row.posturl" target="_blank">{{ scope.row.weburl +
                             scope.row.posturl

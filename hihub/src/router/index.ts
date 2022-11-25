@@ -21,6 +21,10 @@ const routes = [{
         meta: {
             requiresAuth: true
         }
+    }, { 
+        path: '/post-image',
+        name: 'post-image', 
+        component: () => import('../views/post/postImage.vue'),
     },
     { path: '/my', component: My },
     ]
