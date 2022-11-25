@@ -14,3 +14,16 @@ export const getImagesByPostId = (params: any) => {
         params,
     })
 }
+// 获取帖子总数
+export const getTotalNumOfPost = () => {
+    return request({
+        url: 'posts/getPostTotalNum',
+    })
+}
+
+// 获取图片总数
+export const getTotalNumOfImage = () => {
+    return request({
+        url: 'images/getImageTotalNum',
+    })
+}
