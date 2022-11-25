@@ -36,11 +36,11 @@ const tableHeight = computed(() => {
     return (window.innerHeight - 129) + 'px'
 })
 // 分页page-size改变时触发
-const handleSizeChange = (val: number) => {
+const handleSizeChange = () => {
     initPosts()
 }
 // 分页current-page 改变时触发
-const handleCurrentChange = (val: number) => {
+const handleCurrentChange = () => {
     initPosts()
 }
 // 表格状态函数
@@ -57,7 +57,6 @@ const tableRowClassName = ({ row
 }
 // 打开帖子的图片
 const openImageByPostId = (id: number, name: string) => {
-    console.log(id)
     router.push({
         name: 'post-image',
         params: {
@@ -73,10 +72,10 @@ const openImageByPostId = (id: number, name: string) => {
         <el-table :data="posts" style="width: 100%" size="small" :height="tableHeight"
             :row-class-name="tableRowClassName">
             <el-table-column prop="id" label="ID" width="50" />
-            <el-table-column prop="weburl" label="名称">
+            <el-table-column label="名称">
                 <template #default="scope">
                     <el-button link size="small" @click="openImageByPostId(scope.row.id, scope.row.name)">
-                        {{ scope.row.weburl }}
+                        {{ scope.row.name }}
                     </el-button>
                 </template>
             </el-table-column>
