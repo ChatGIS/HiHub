@@ -2,8 +2,16 @@ const { QueryTypes } = require('sequelize')
 const seq = require('../db/seq')
 
 class PostService {
+    // 获取帖子总数
+    async getPostTotalNum() {
+        const sqlCount = `select count(id) as num from post`
+        const resCount = await seq.query(sqlCount, { type: QueryTypes.SELECT })
+        return {
+            total: resCount[0].num,
+        }
+    }
+    // 分页查询帖子
     async getPosts(searchWord, startNum, pageSize) {
-        // 获取所有帖子sql；用于获取帖子数
         const sqlCount = `select count(id) as num from post where name like '%${searchWord}%'`
         const sqlPage = `select p.*, w.url as weburl from post p left join website w on p.webid = w.id`
             + ` where p.name like '%${searchWord}%' limit ${pageSize} offset ${startNum}`

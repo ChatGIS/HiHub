@@ -3,7 +3,7 @@ const seq = require('../db/seq')
 
 class ImageService {
     // 获取图片总数
-    async getImageTotalNum(searchWord, startNum, pageSize) {
+    async getImageTotalNum() {
         const sqlCount = `select count(id) as num from image`
         const resCount = await seq.query(sqlCount, { type: QueryTypes.SELECT })
         return {
