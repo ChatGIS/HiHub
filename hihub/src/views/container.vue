@@ -34,7 +34,14 @@ const loginOrOut = () => {
             </div>
         </el-header>
         <el-main id="hi-main">
-            <router-view></router-view>
+            <router-view v-slot="{ Component }">
+                <transition>
+                    <keep-alive>
+                        <component :is="Component" />
+                    </keep-alive>
+                </transition>
+            </router-view>
+            <!-- <router-view></router-view> -->
         </el-main>
     </el-container>
 </template>
