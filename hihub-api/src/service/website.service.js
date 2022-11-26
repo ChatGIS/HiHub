@@ -10,7 +10,7 @@ class CrawlService {
             websites: res
         }
     }
-    // 分页查询帖子
+    // 根据网站Id获取网站
     async getWebsiteById(id) {
         const sql = `select * from website where id = '${id}'`
         const res = await seq.query(sql, { type: QueryTypes.SELECT })
