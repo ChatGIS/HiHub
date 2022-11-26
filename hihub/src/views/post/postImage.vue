@@ -37,27 +37,22 @@ const changeImageLayout = () => {
 <template>
     <div>
         <el-row>
-            <el-col :span="24">
-                <h3>{{ postName }}</h3>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="24">
-                <div style="margin: 0 0 15px 0">
+            <el-col :span="6">
+                <el-affix :offset="200">
+                    <h3>{{ postName }}</h3>
+                    <div style="margin: 0 0 15px 0">
                     <el-icon @click="changeImageLayout" :size="25">
                         <Grid v-show="!isShowGrid" />
                         <Iphone v-show="isShowGrid" />
                     </el-icon>
                 </div>
+                </el-affix>
             </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="21">
+            <el-col :span="18">
                 <el-image v-for="item in images" :key="item.id" :src="item.url" fit="contain" v-show="!isShowGrid" />
                 <el-image v-for="item in images" :key="item.id" :src="item.url" fit="fill" v-show="isShowGrid"
                     style="width: 20%" />
             </el-col>
-            <el-col :span="3"></el-col>
         </el-row>
     </div>
 </template>
