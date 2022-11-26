@@ -37,11 +37,11 @@ const loginOrOut = () => {
             <router-view v-slot="{ Component }">
                 <transition>
                     <keep-alive>
-                        <component :is="Component" />
+                        <component v-if="$route.meta.keepAlive" :is="Component" />
                     </keep-alive>
                 </transition>
             </router-view>
-            <!-- <router-view></router-view> -->
+            <router-view v-if="!$route.meta.keepAlive"/>
         </el-main>
     </el-container>
 </template>

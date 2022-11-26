@@ -19,6 +19,7 @@ const routes = [{
         path: '/post', 
         component: () => import('../views/post/postList.vue'),
         meta: {
+            keepAlive: true,
             requiresAuth: true
         }
     }, { 
