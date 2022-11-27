@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import { getImagesByPostId } from '@/api/post'
-import { getTagOfPost } from '@/api/tag'
+import { getTagOfPost, addRelPostTag, deleteRelPostTag } from '@/api/tag'
+import { ElMessage } from 'element-plus'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -14,14 +15,26 @@ interface Image {
     orders: number
     url: string
 }
+interface Tag {
+    id: number
+    name: string
+    orders: number
+    pid: number
+    rpt_id: number
+}
 
 const images: Image[] = reactive([])
+const tags: Tag[] = reactive([])
 const isShowGrid = ref(true)
 // 请求参数
 const queryParam = reactive({
     id: postId.toString()
 })
-
+// 添加关系参数
+const paramAdd = reactive({
+    postId: postId.toString(),
+    tagId: '0'
+})
 // 初始化图片
 const initImages = async () => {
     const res = await getImagesByPostId(queryParam)
@@ -30,7 +43,7 @@ const initImages = async () => {
 // 初始化标签
 const initTags = async () => {
     const res = await getTagOfPost(queryParam)
-    console.log(res)
+    tags.push(...res.tags)
 }
 initImages()
 initTags()
@@ -38,6 +51,26 @@ initTags()
 // 改变图片布局函数
 const changeImageLayout = () => {
     isShowGrid.value = !isShowGrid.value
+}
+// 标签选择框改变函数
+const changeTagCheck = async (isChecked: boolean, tagId: number) => {
+    console.log(isChecked)
+    console.log(tagId)
+    paramAdd.tagId = tagId.toString()
+    if (isChecked) {
+        const res = await addRelPostTag(paramAdd)
+        if (res.tag > 0) {
+            ElMessage({
+                message: '成功添加标签',
+                type: 'success',
+            })
+        }
+    } else {
+        const res = await deleteRelPostTag(paramAdd)
+        if(res.is_deleted) {
+            ElMessage('成功删除标签')
+        }
+    }
 }
 </script>
 
@@ -52,6 +85,10 @@ const changeImageLayout = () => {
                             <Grid v-show="!isShowGrid" />
                             <Iphone v-show="isShowGrid" />
                         </el-icon>
+                    </div>
+                    <div>
+                        <el-checkbox v-for="item in tags" :key="item.id" :checked="item.rpt_id > 0" :label="item.name"
+                            size="large" border @change="changeTagCheck($event, item.id)" />
                     </div>
                 </el-affix>
             </el-col>
@@ -69,5 +106,7 @@ const changeImageLayout = () => {
 </template>
 
 <style scoped>
-
+.el-checkbox {
+    margin: 10px 2px
+}
 </style>
