@@ -1,5 +1,5 @@
 const Router = require('koa-router')
-const { getTagOfPost, getTags, addTag } = require('../controller/tag.controller')
+const { getTagOfPost, getTags, addTag, addRelPostTag, deleteRelPostTag } = require('../controller/tag.controller')
 
 const router = new Router({ prefix: '/tags' })
 
@@ -9,5 +9,8 @@ router.get('/getTags', getTags)
 router.get('/getTagOfPost', getTagOfPost)
 // 添加标签
 router.post('/tag', addTag)
-
+// 添加帖子标签关系
+router.post('/relPostTag', addRelPostTag)
+// 删除帖子标签关系
+router.delete('/relPostTag', deleteRelPostTag)
 module.exports = router
