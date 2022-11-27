@@ -5,6 +5,9 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import router from './router'
 import './assets/styles/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+//引入Elmessage和Elloading的css样式文件
+import 'element-plus/theme-chalk/el-loading.css'
+import 'element-plus/theme-chalk/el-message.css'
 
 // 创建pinia实例
 const pinia = createPinia()
