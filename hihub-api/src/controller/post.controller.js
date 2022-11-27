@@ -10,10 +10,14 @@ class PostController {
     async getPosts(ctx, next) {
         const pageNum = parseInt(ctx.query.pagenum)
         const pageSize = parseInt(ctx.query.pagesize)
-        const tag = parseInt(ctx.query.tag)
+        const tags = ctx.query.tags
         const startNum = (pageNum - 1) * pageSize
         const serachWord = ctx.query.query
-        const res = await getPosts(serachWord, startNum, pageSize)
+        // ['1', '2'] 转为 "1,2"
+        let arrTags = tags.substr(1, tags.length - 2).split(',')
+        arrTags = arrTags.map(Number)
+        const stringTags = arrTags.join(',')
+        const res = await getPosts(serachWord, startNum, pageSize, stringTags)
         ctx.success(res, '查询帖子成功')
     }
 }
