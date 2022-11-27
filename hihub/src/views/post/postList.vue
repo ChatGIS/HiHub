@@ -1,7 +1,8 @@
 <script setup lang='ts'>
-import { getPosts } from '@/api/post'
 import { ref, reactive, computed } from 'vue'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
+import { getPosts } from '@/api/post'
+import { getTags } from '@/api/tag'
 
 const router = useRouter()
 // 定义Post
@@ -13,27 +14,42 @@ interface Post {
     status_img: number
     weburl: string
 }
+interface Tag {
+    id: number
+    name: string
+    pid: number
+    orders: number
+}
 // 帖子数据
 const posts: Post[] = reactive([])
+const tags: Tag[] = reactive([])
 const totalPost = ref(0)
+const checkboxGroupTag = ref([])
 // 查询条件
 const queryParam = reactive({
     query: '',
     pagenum: 1,
     pagesize: 20,
-    tags: [0],
+    tags: ''
 })
 // 初始化获取帖子数据
 const initPosts = async () => {
     const res = await getPosts(queryParam)
     posts.length = 0
+    debugger
     posts.push(...res.posts)
     totalPost.value = res.total
 }
+// 初始化获取标签
+const initTags = async () => {
+    const res = await getTags()
+    tags.push(...res.tags)
+}
 initPosts()
+initTags()
 // 表格高度
 const tableHeight = computed(() => {
-    return (window.innerHeight - 129) + 'px'
+    return (window.innerHeight - 212) + 'px'
 })
 // 分页page-size改变时触发
 const handleSizeChange = () => {
@@ -65,10 +81,30 @@ const openImageByPostId = (id: number, name: string) => {
         }
     })
 }
+// 改变标签选择
+const changeTagGroup = () => {
+    queryParam.tags = JSON.stringify(checkboxGroupTag.value)
+    initPosts()
+}
 </script>
 
 <template>
     <div>
+        <el-card>
+            <el-row>
+                <el-col :span="8">
+                    <el-input v-model="queryParam.query" clearable />
+                    <el-button type="primary" @click="initPosts">搜索</el-button>
+                </el-col>
+                <el-col :span="16">
+                    <el-checkbox-group v-model="checkboxGroupTag">
+                        <el-checkbox-button v-for="item in tags" :key="item.id" :label="item.id" @change="changeTagGroup">{{
+                                item.name
+                        }}</el-checkbox-button>
+                    </el-checkbox-group>
+                </el-col>
+            </el-row>
+        </el-card>
         <el-table :data="posts" style="width: 100%" size="small" :height="tableHeight"
             :row-class-name="tableRowClassName">
             <el-table-column prop="id" label="ID" width="50" />
@@ -95,6 +131,15 @@ const openImageByPostId = (id: number, name: string) => {
 </template>
 
 <style scoped>
+.el-input {
+    width: 70%;
+    margin: 0 40px 0 0;
+}
+
+.el-card {
+    margin-bottom: 10px;
+}
+
 .el-table :deep(.warning-row) {
     --el-table-tr-bg-color: var(--el-color-warning-light-9);
 }
