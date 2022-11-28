@@ -16,8 +16,9 @@ class PostController {
         // ['1', '2'] 转为 "1,2"
         let arrTags = tags.substr(1, tags.length - 2).split(',')
         arrTags = arrTags.map(Number)
+        const tagLength = arrTags.length
         const stringTags = arrTags.join(',')
-        const res = await getPosts(serachWord, startNum, pageSize, stringTags)
+        const res = await getPosts(serachWord, startNum, pageSize, stringTags, tagLength)
         ctx.success(res, '查询帖子成功')
     }
 }
