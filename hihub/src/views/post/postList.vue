@@ -26,6 +26,7 @@ const posts: Post[] = reactive([])
 const tags: Tag[] = reactive([])
 const totalPost = ref(0)
 const checkboxGroupTag = ref([])
+const currentRowId = ref(0)
 // 查询条件
 const queryParam = reactive({
     query: '',
@@ -37,7 +38,6 @@ const queryParam = reactive({
 const initPosts = async () => {
     const res = await getPosts(queryParam)
     posts.length = 0
-    debugger
     posts.push(...res.posts)
     totalPost.value = res.total
 }
@@ -87,6 +87,20 @@ const changeTagGroup = () => {
     queryParam.tags = JSON.stringify(checkboxGroupTag.value)
     initPosts()
 }
+// 改变选中行的样式
+const changeCurrentRow = (row: any) => {
+    if (currentRowId.value === row.id) return
+    currentRowId.value = row.id
+}
+// 选中行样式
+const rowStyle = ({ row }: { row: any }) => {
+    if (currentRowId.value === row.id) {
+        return {
+            'background-color': 'rgb(94, 180, 251)',
+            'color': 'rgb(255, 255, 255)'
+        }
+    }
+}
 </script>
 
 <template>
@@ -99,15 +113,16 @@ const changeTagGroup = () => {
                 </el-col>
                 <el-col :span="16">
                     <el-checkbox-group v-model="checkboxGroupTag">
-                        <el-checkbox-button v-for="item in tags" :key="item.id" :label="item.id" @change="changeTagGroup">{{
-                                item.name
-                        }}</el-checkbox-button>
+                        <el-checkbox-button v-for="item in tags" :key="item.id" :label="item.id"
+                            @change="changeTagGroup">{{
+                                    item.name
+                            }}</el-checkbox-button>
                     </el-checkbox-group>
                 </el-col>
             </el-row>
         </el-card>
         <el-table :data="posts" style="width: 100%" size="small" :height="tableHeight"
-            :row-class-name="tableRowClassName">
+            :row-class-name="tableRowClassName" :row-style="rowStyle" @row-click="changeCurrentRow">
             <el-table-column prop="id" label="ID" width="50" />
             <el-table-column label="名称">
                 <template #default="scope">
