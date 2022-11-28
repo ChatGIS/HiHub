@@ -67,10 +67,28 @@ const changeTagCheck = async (isChecked: boolean, tagId: number) => {
         }
     } else {
         const res = await deleteRelPostTag(paramAdd)
-        if(res.is_deleted) {
+        if (res.is_deleted) {
             ElMessage('成功删除标签')
         }
     }
+}
+// 切换到上一页或下一页图片
+const toOtherPostImage = (index: number) => {
+    const currentPostId = parseInt(postId.toString())
+    let id = currentPostId
+    let name = ''
+    if(index === -1){
+        id = currentPostId - 1
+    } else {
+        id = currentPostId + 1
+    }
+    router.replace({
+        name: 'post-image',
+        params: {
+            id,
+            name
+        }
+    })
 }
 </script>
 
@@ -79,6 +97,18 @@ const changeTagCheck = async (isChecked: boolean, tagId: number) => {
         <el-row>
             <el-col :span="6">
                 <el-affix :offset="200">
+                    <el-button-group>
+                        <el-button type="primary" @click="toOtherPostImage(-1)">
+                            <el-icon>
+                                <ArrowLeft />
+                            </el-icon>上一个
+                        </el-button>
+                        <el-button type="primary" @click="toOtherPostImage(1)">
+                            下一个<el-icon>
+                                <ArrowRight />
+                            </el-icon>
+                        </el-button>
+                    </el-button-group>
                     <h3>{{ postName }}</h3>
                     <div style="margin: 0 0 15px 0">
                         <el-icon @click="changeImageLayout" :size="25">
