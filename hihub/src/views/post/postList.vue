@@ -12,7 +12,8 @@ interface Post {
     name: string
     posturl: string
     status_img: number
-    weburl: string
+    weburl: string,
+    tagIds: string
 }
 interface Tag {
     id: number
@@ -122,6 +123,7 @@ const changeTagGroup = () => {
                     }}</el-link>
                 </template>
             </el-table-column>
+            <el-table-column prop="tagNames" label="标签" width="100" />
         </el-table>
         <el-pagination v-model:current-page="queryParam.pagenum" v-model:page-size="queryParam.pagesize"
             :page-sizes="[20, 50, 100, 200]" small="true" background="true"
