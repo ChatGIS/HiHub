@@ -11,12 +11,15 @@
   "author": "孟十三",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.0.3",
     "koa": "^2.13.4",
     "koa-body": "^6.0.1",
     "koa-router": "^12.0.0",
     "koa2-cors": "^2.0.6",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.25.7"
+    "sequelize": "^6.25.7",
+    "superagent": "^8.0.5",
+    "superagent-charset": "^1.2.0"
   }
 }
