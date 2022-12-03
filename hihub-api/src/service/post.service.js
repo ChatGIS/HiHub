@@ -11,7 +11,7 @@ class PostService {
         }
     }
     // 分页查询帖子
-    async getPosts(searchWord, startNum, pageSize, tags, tagLength) {debugger
+    async getPosts(searchWord, startNum, pageSize, tags, tagLength) {
         const sqlBasic = `select p.*, GROUP_CONCAT(rpt.tagid) as tagIds, GROUP_CONCAT(t.name) as tagNames, w.url as weburl from post p`
         + ` left join rel_post_tag rpt on rpt.postid = p.id`
         + ` left join sys_tag t on rpt.tagid = t.id`
@@ -34,6 +34,23 @@ class PostService {
             total: resCount.length,
             posts: resPage
         }
+    }
+
+    // 根据帖子地址获取对应帖子
+    async getPostByPostUrl(postUrl) {
+        const sql = `select id from post where posturl = '${postUrl}'`
+        const res = await seq.query(sql, { type: QueryTypes.SELECT })
+        return res.length
+    }
+
+    // 添加帖子
+    async addPost(post) {
+        console.log(post);
+        const sql = `insert into post (postid, name, posturl, create_time, webid, status_img) `
+        + ` values ('${post.postid}', '${post.name}', '${post.posturl}', '${post.create_time}', '${post.webid}', 0)`
+        const res = await seq.query(sql, { type: QueryTypes.INSERT })
+        console.log(res)
+        return res
     }
 }
 
