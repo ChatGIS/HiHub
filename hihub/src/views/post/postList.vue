@@ -31,7 +31,7 @@ const currentRowId = ref(0)
 const queryParam = reactive({
     query: '',
     pagenum: 1,
-    pagesize: 20,
+    pagesize: 14,
     tags: ''
 })
 // 初始化获取帖子数据
@@ -141,7 +141,7 @@ const rowStyle = ({ row }: { row: any }) => {
             <el-table-column prop="tagNames" label="标签" width="100" />
         </el-table>
         <el-pagination v-model:current-page="queryParam.pagenum" v-model:page-size="queryParam.pagesize"
-            :page-sizes="[20, 50, 100, 200]" small="true" background="true"
+            :page-sizes="[14, 50, 100, 200]" small="true" background="true"
             layout="total, sizes, prev, pager, next, jumper" :total="totalPost" @size-change="handleSizeChange"
             @current-change="handleCurrentChange" />
     </div>
